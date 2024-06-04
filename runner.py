@@ -165,7 +165,7 @@ with tab4:
 
     import csv
     data = list()
-    with open('C:/ex/pro1/db/faq_df.csv','r',encoding='UTF8') as f:
+    with open('C:\SKN02-1st-3Team\최종 폴더\result\faq_df.csv','r',encoding='UTF8') as f:
         rea = csv.reader(f)
         for row in rea:
             data.append(row)
