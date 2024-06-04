@@ -7,6 +7,8 @@ import plotly.express as px
 import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
+import os
+import csv
 
 ## db 연결
 conn_skrentcardb = pymysql.connect(
@@ -134,7 +136,6 @@ with tab3:
         # 시작지점
         b = folium.Map(location=[35.95, 128.25], zoom_start=7)
 
-
         curs = conn_skrentcardb.cursor()
         sql = "SELECT * FROM locationTbl"
         curs.execute(sql)
@@ -163,9 +164,12 @@ with tab4:
     #     with st.expander(conn_sk_rentcar_faq_tbl[i+1+(num_row*7)][0]):
     #         st.write(conn_sk_rentcar_faq_tbl[i+1+(num_row*7)][1])
 
-    import csv
     data = list()
-    with open('C:\SKN02-1st-3Team\최종 폴더\result\faq_df.csv','r',encoding='UTF8') as f:
+    result_path = os.path.join(os.getcwd(), 'result')
+    os.makedirs(result_path, exist_ok=True)
+    
+    os.path.join(result_path, 'faq_df.csv')
+    with open(os.path.join(result_path, 'faq_df.csv'),'r',encoding='UTF8') as f:
         rea = csv.reader(f)
         for row in rea:
             data.append(row)
