@@ -45,24 +45,17 @@ conn_sk_rentcar_faq_tbl = pymysql.connect(
 
 
 ## 제목 
-st.title('3조 sk 렌터카')
+st.title('국내 렌터카 사업 분석 및 FAQ 조회 서비스')
  
 # 탭 4개 생성
-tab_titles = ['지역별 렌트카 수', '렌터카 업체별 사업장 및 차량 보유 대수 비교', '렌터카 대여장소 지도 비교','그린카 FAQ']
-tab1, tab2, tab3, tab4 = st.tabs(tab_titles)
+tab_titles = ['렌터카 업체 차량 보유 대수 비교', '렌터카 대여장소 지도 비교','SK렌터카 FAQ']
+tab2, tab3, tab4 = st.tabs(tab_titles)
 
  
 # 각 탭에 콘텐츠 추가
-with tab1:
-    st.header('주제 A')
-    st.write('주제 A의 내용')
-
-    chart_data = pd.DataFrame(np.random.randn(20, 3), columns=["a", "b", "c"])
-    st.bar_chart(chart_data)
-
 with tab2:
-    st.header('FQA')
-    st.write('SK렌터카 FQA')
+    st.header('렌터카 업체 차량 보유 대수 비교')
+    st.write('SK렌터카 > 롯데 > 쏘카,그린카')
 
     curs = conn_total_rentcar_db.cursor()
     sql = "SELECT CASE WHEN name IN ('SK', '롯데렌탈', '쏘카', '그린카') THEN name ELSE 'etc' END AS company_category, SUM(car_count) AS total_car_count FROM total_rentcar_tbl GROUP BY company_category ORDER BY total_car_count DESC;"
@@ -76,7 +69,7 @@ with tab2:
     colors = ['gray', 'orange', 'red', 'green', 'blue']
 
     # 데이터 및 라벨 설정
-    labels = ['ETC','SK','lotte','greencar','socar']
+    labels = ['ETC','SK','lotte','greencar&socar',' ']
     sizes = []
 
     # sizes 데이터 설정 (sizes가 무엇인지는 제공되지 않았지만, total_rentcar_Result와 동일하게 사용)
@@ -120,13 +113,13 @@ with tab3:
         a = folium.Map(location=[36.95, 128.25], zoom_start=6)
 
         
-        for i in range(300):
+        for i in range(len(socar_Rent_marking_Result)):
             folium.Marker([socar_Rent_marking_Result[i][4],socar_Rent_marking_Result[i][5]],
                           popup=socar_Rent_marking_Result[i][2],
                           tooltip=socar_Rent_marking_Result[i][3],
                           icon=folium.Icon(color='blue')).add_to(a)
-            
-        for i in range(300):
+        
+        for i in range(len(socar_Rent_marking_Result)):
             folium.Marker([green_Rent_marking_Result[i][4],green_Rent_marking_Result[i][5]],
                           popup=green_Rent_marking_Result[i][2],
                           tooltip=green_Rent_marking_Result[i][3],
@@ -157,8 +150,8 @@ with tab3:
         st_data_b = st_folium(b, key="map_b")
 
 with tab4:
-    # st.header('FAQ')
-    # st.write('SK렌터카 FQA')
+    st.header('FAQ')
+    st.write('SK렌터카 FQA')
 
     # curs = conn_sk_rentcar_faq_tbl.cursor()
     # sql = "select * from sk_faq_tbl;"
@@ -177,7 +170,7 @@ with tab4:
         for row in rea:
             data.append(row)
 
-    num_row = st.number_input("Number of Rows", min_value=1, max_value=4)
+    num_row = st.number_input("현재 페이지", min_value=1, max_value=4)
     for i in range(7):
         with st.expander(data[i+1+(num_row*7)][0]):
             st.write(data[i+1+(num_row*7)][1])
