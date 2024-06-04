@@ -20,6 +20,12 @@
     - SK렌터카, 쏘카, 그린카
 3. FAQ 시스템
 
+## 설치
+``` bash
+$ git clone https://github.com/SKNETWORKS-FAMILY-AICAMP/SKN02-1st-3Team.git
+$ pip install -r requirements.txt
+```
+
 ## 실행 가이드
 1. `crawling_runner.py`: 전국 렌트카 정보 및 주요 렌트카 카셰어링 정보, sk렌트카 FAQ 등의 정보를 크롤링 및 전처리합니다.
 ```bash
